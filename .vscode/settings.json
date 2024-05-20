@@ -1,5 +1,6 @@
 {
     "code-runner.clearPreviousOutput": true,
     "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 500
+    "files.autoSaveDelay": 500,
+    "liveServer.settings.port": 5501
 }

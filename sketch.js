@@ -1,3 +1,10 @@
+// um das Programm zu starten, clicke auf "Go Live" in der unteren rechten Ecke
+// Wenn sich nicht automatisch ein neuer Browser-Tab öffnet,
+// klicke auf "Open Browser" im Pop-Up-Fenster
+// Jede Änderung im Code wird automatisch im Browser angezeigt
+// Du kannst dein Browserfenster neben deinem Codefenster platzieren,
+// beides gelichzeitig zu sehen.
+
 function setup() {
     createCanvas(500, 500);
     // schreibe hier Code, der einmal ausgeführt werden soll
