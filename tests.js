@@ -54,19 +54,3 @@ function visualizeSearchRange(row, col, distance) {
     rect(col * blockSize, row * blockSize, blockSize, blockSize);
     strokeWeight(1);
 }
-
-
-function findNeighbourPositions(row, col, distance) {
-    let positions = [];
-    // alle Nachbarfelder mit maximal Entfernung distance
-    // zu positions hinzufügen
-    for (let i = row - distance; i <= row + distance; i++) {
-        for (let j = col - distance; j <= col + distance; j++) {
-            let istInMatrix = i >= 0 && j >= 0 && i < matrixSize && j < matrixSize;
-            if (istInMatrix && (i != row || j != col)) {
-                positions.push([i, j]);
-            }
-        }
-    }
-    return positions;
-}
