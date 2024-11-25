@@ -6,4 +6,7 @@
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 500,
     "liveServer.settings.port": 5501,
+    "aiCodeChecker.modelName": "anthropic/claude-3.5-sonnet",
+    "liveServer.settings.CustomBrowser": "chrome",
+    "editor.acceptSuggestionOnCommitCharacter": false
 }
