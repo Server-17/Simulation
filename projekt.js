@@ -1,121 +1,133 @@
 class Empty { }
 
-// Grass starts with a random energy between 0 and 2.
-// It gains 1 energy every frame.
-// When it reaches 7 energy, it creates a new grass object
-// in an empty neighbour cell and resets its energy to 0.
+// Start-Energie: zufällig zwischen 0 und 2.
+// Energie steigt jeden Zyklus um 1.
+// Bei Energie ≥ 7:
+//     Leere Nachbarfelder suchen.
+//     Zufälliges leeres Nachbarfeld auswählen, neues Gras erstellen.
+//     Energie des alten Gras wird auf 0 gesetzt.
 class Grass {
     // dein Code
 }
 
-// GrassEater looks for grass in its neighbour cells.
-// If it finds grass, it moves to that cell, eats the grass and gains 1 energy.
-// If it doesn't find grass, it moves to a random empty neighbour cell and loses 1 energy.
-// If it has 10 energy, it creates a new grass eater object in an empty neighbour cell
-// and loses 5 energy.
-// If it has 0 energy, it dies and becomes an empty cell.
+// Start-Energie: 5.
+// Jeden Zyklus:
+//     Nachbarfelder prüfen:
+//         Wenn Gras vorhanden:
+//             Zufälliges Gras auswählen und darauf bewegen.
+//             Energie +1.
+//         Wenn kein Gras:
+//             Leere Felder suchen, zufällig eines auswählen und darauf bewegen.
+//             Energie -1.
+// Bei Energie = 10:
+//     Leere Nachbarfelder suchen.
+//     Zufälliges leeres Nachbarfeld auswählen, neuer Grasfresser entsteht.
+//     Energie des alten Grasfressers -5.
 class GrassEater {
     // dein Code
 }
 
-// MeatEater looks for grass eater in its neighbour cells.
-// If it finds grass eater, it moves to that cell, eats the grass eater and gains 10 energy.
-// If it doesn't find grass eater, it loses 1 energy.
-// If it has 120 energy, it creates a new meat eater object in an empty neighbour cell
-// and loses 100 energy.
+// Start-Energie: 100.
+// Jeden Zyklus:
+//     Nachbarfelder prüfen:
+//         Wenn Grasfresser vorhanden:
+//             Zufälligen Grasfresser auswählen und darauf bewegen.
+//             Energie +10.
+//         Wenn kein Grasfresser:
+//             Energie -1.
+// Bei Energie = 120:
+//     Leere Nachbarfelder suchen.
+//     Zufälliges leeres Nachbarfeld auswählen, neuer Fleischfresser entsteht.
+//     Energie des alten Fleischfressers -100.
 class MeatEater {
     // dein Code
 }
 
-// list of lists. Contains all creatures.
+// Liste von Listen. Enthält alle Kreaturen.
 let matrix = [];
-// size of the matrix, how many cells in width and height
+// Größe der Matrix, Anzahl der Zellen in Breite und Höhe
 let size = 50;
-// display size in pixels of each cell
+// Anzeigengröße in Pixeln für jede Zelle
 let blockSize = 15;
 
-// What probability each creature has to be created
+// Wahrscheinlichkeit, mit der jede Kreatur erstellt wird
 let creatureAmounts = [
-    [Grass, 0.9],
-    [GrassEater, 0.005],
-    [MeatEater, 0.02],
+    [Grass, 0.9],       // Gras: 90% Wahrscheinlichkeit
+    [GrassEater, 0.005], // Grasfresser: 0,5% Wahrscheinlichkeit
+    [MeatEater, 0.02],   // Fleischfresser: 2% Wahrscheinlichkeit
 ];
 
-// Choose a random creature based on the probabilities
+// Wählt basierend auf den Wahrscheinlichkeiten zufällig eine Kreatur aus
 function getRandomCreature() {
-    let rand = random();
+    let rand = random(); // Zufallszahl zwischen 0 und 1
     let sum = 0;
-    for (let [creatureCLass, propability] of creatureAmounts) {
-        sum += propability;
-        if (rand < sum) {
-            return creatureCLass;
+    for (let [creatureClass, probability] of creatureAmounts) {
+        sum += probability; // Summiert die Wahrscheinlichkeiten
+        if (rand < sum) {   // Wenn die Zufallszahl kleiner ist, wähle diese Kreatur
+            return creatureClass;
         }
     }
-    return Empty;
+    return Empty; // Wenn keine andere Bedingung zutrifft, wird ein leeres Feld zurückgegeben
 }
 
-// randomly fill the matrix with creatures based on the probabilities
+// Füllt die Matrix zufällig mit Kreaturen basierend auf den Wahrscheinlichkeiten
 function fillRandomMatrix() {
     // dein Code
 }
 
-
-// update the position of a creature in the matrix
-// Creates a new empty object in the old position
+// Aktualisiert die Position einer Kreatur in der Matrix
+// Erstellt ein neues leeres Objekt an der alten Position
 function updateCreaturePosition(creature, newPos) {
-    let [newRow, newCol] = newPos;
-    matrix[newRow][newCol] = creature;
-    matrix[creature.row][creature.col] = new Empty();
-    creature.row = newRow;
-    creature.col = newCol;
+    let [newRow, newCol] = newPos; // Neue Position
+    matrix[newRow][newCol] = creature; // Kreatur wird an der neuen Position gesetzt
+    matrix[creature.row][creature.col] = new Empty(); // Alte Position wird geleert
+    creature.row = newRow; // Zeile der Kreatur wird aktualisiert
+    creature.col = newCol; // Spalte der Kreatur wird aktualisiert
 }
 
-
-// for a given position, find all neighbour positions contain a certain
-// creature type and are within a certain distance
-// returns a list of [row, col] positions
-// example: findNeighbourPositions(10, 10, 1, Empty) will return all empty cells
-// around position 10, 10 within a distance of 1. If all cells are empty, it will return
-// [[9, 9], [9, 10], [9, 11], [10, 9], [10, 11], [11, 9], [11, 10], [11, 11]]
+// Für eine gegebene Position werden alle Nachbarpositionen gesucht,
+// die einen bestimmten Kreaturentyp enthalten und innerhalb einer bestimmten Distanz liegen
+// Gibt eine Liste von [row, col]-Positionen zurück
+// Beispiel: findNeighbourPositions(10, 10, 1, Empty) gibt alle leeren Zellen
+// um die Position 10, 10 im Abstand von 1 zurück.
+// Wenn alle Zellen leer sind, wird [[9, 9], [9, 10], [9, 11], [10, 9], [10, 11], [11, 9], [11, 10], [11, 11]] zurückgegeben
 function findNeighbourPositions(row, col, distance, creatureType) {
     // dein Code
 }
 
-// setup the canvas and fill the matrix with creatures
-// Will be called once at the start
+// Initialisiert die Zeichenfläche und füllt die Matrix mit Kreaturen
+// Wird einmal beim Start aufgerufen
 function setup() {
-    createCanvas(size * blockSize, size * blockSize);
-    fillRandomMatrix();
-    noStroke();
-    frameRate(1);
+    createCanvas(size * blockSize, size * blockSize); // Zeichenfläche erstellen
+    fillRandomMatrix(); // Matrix zufällig füllen
+    noStroke(); // Keine Umrandungen für Rechtecke
+    frameRate(1); // Bildrate auf 1 Frame pro Sekunde setzen
 }
 
-// game loop. This will be called every frame
-// It will draw the matrix and update the creatures
+// Spielschleife. Wird in jedem Frame aufgerufen
+// Zeichnet die Matrix und aktualisiert die Kreaturen
 function draw() {
-    background(200)
+    background(200); // Hintergrundfarbe setzen
     for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
-            let obj = matrix[row][col];
+            let obj = matrix[row][col]; // Objekt an der aktuellen Position
 
-            // skip empty cells
+            // Leere Zellen überspringen
             if (obj instanceof Empty) continue;
 
-            // set the row and col of the creature
+            // Zeile und Spalte der Kreatur setzen
             obj.row = row;
             obj.col = col;
 
-
-            // this prevents newly created creatures from being updated in the same step
-            // and creatures that move from being updated multiple times in one frame
+            // Verhindert, dass neu erstellte Kreaturen im gleichen Schritt aktualisiert werden
+            // und dass Kreaturen, die sich bewegen, mehrfach in einem Frame aktualisiert werden
             if (obj.stepCount === frameCount) {
-                obj.step();
+                obj.step(); // Kreatur führen ihren Schritt aus
             }
 
-
-            // draw the creature
-            fill(obj.color);
-            rect(blockSize * obj.col, blockSize * obj.row, blockSize, blockSize);
+            // Kreatur zeichnen
+            fill(obj.color); // Farbe der Kreatur setzen
+            rect(blockSize * obj.col, blockSize * obj.row, blockSize, blockSize); // Rechteck zeichnen
         }
     }
 }
