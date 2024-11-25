@@ -1,11 +1,12 @@
 class Empty { }
 
-// Start-Energie: zufällig zwischen 0 und 2.
-// Energie steigt jeden Schritt um 1.
-// Bei Energie ≥ 7:
-//     Leere Nachbarfelder suchen.
-//     Zufälliges leeres Nachbarfeld auswählen, neues Gras erstellen.
-//     Energie des alten Gras wird auf 0 gesetzt.
+// Startenergie: Jedes Gras beginnt mit einer zufälligen Energiemenge zwischen 0 und 2.
+// Energiegewinn: In jedem Zyklus (Frame) erhöht sich die Energie des Grases um 1.
+// Fortpflanzung: Erreicht das Gras eine Energie von 7 oder mehr, pflanzt es sich fort.
+//     Es sucht in seiner unmittelbaren Umgebung (Nachbarfelder) nach leeren Feldern.
+//     Wenn leere Felder vorhanden sind, wird zufällig eines ausgewählt.
+//     Auf diesem leeren Feld wird ein neues Grasobjekt erstellt.
+//     Die Energie des ursprünglichen Grases wird nach der Fortpflanzung auf 0 zurückgesetzt.
 class Grass {
 
     // Jede Klasse braucht einen Konstruktor
@@ -25,35 +26,36 @@ class Grass {
     }
 }
 
-// Start-Energie: 5.
-// Jeden Schritt:
-//     Nachbarfelder prüfen:
-//         Wenn Gras vorhanden:
-//             Zufälliges Gras auswählen und darauf bewegen.
-//             Energie +1.
-//         Wenn kein Gras:
-//             Leere Felder suchen, zufällig eines auswählen und darauf bewegen.
-//             Energie -1.
-// Bei Energie = 10:
-//     Leere Nachbarfelder suchen.
-//     Zufälliges leeres Nachbarfeld auswählen, neuer Grasfresser entsteht.
-//     Energie des alten Grasfressers -5.
+// Startenergie: Jeder Grasfresser beginnt mit einer Energie von 5.
+// Nahrungssuche: In jedem Zyklus sucht der Grasfresser in seiner unmittelbaren Umgebung nach Nahrung.
+//     Gras gefunden:
+//         Der Grasfresser bewegt sich auf das Feld, auf dem sich das Gras befindet.
+//         Dadurch wird das Gras "gefressen" und der Grasfresser erhält 1 Energiepunkt dazu.
+//     Kein Gras gefunden:
+//         Der Grasfresser sucht nach einem leeren Feld in seiner Umgebung.
+//         Wenn ein leeres Feld gefunden wird, bewegt sich der Grasfresser dorthin.
+//         Da keine Nahrung gefunden wurde, verliert der Grasfresser 1 Energiepunkt.
+// Fortpflanzung: Erreicht der Grasfresser eine Energie von 10 oder mehr, pflanzt er sich fort.
+//     Er sucht nach einem leeren Feld in seiner Umgebung.
+//     Wenn ein leeres Feld gefunden wird, wird dort ein neuer Grasfresser erstellt.
+//     Der ursprüngliche Grasfresser verliert 5 Energiepunkte durch die Fortpflanzung.
+// Tod: Sinkt die Energie des Grasfressers auf 0 oder weniger, stirbt er und das Feld, auf dem er sich befand, wird leer.
 class GrassEater {
     // Dein Code hier
 }
 
-// Start-Energie: 100.
-// Jeden Schritt:
-//     Nachbarfelder prüfen:
-//         Wenn Grasfresser vorhanden:
-//             Zufälligen Grasfresser auswählen und darauf bewegen.
-//             Energie +10.
-//         Wenn kein Grasfresser:
-//             Energie -1.
-// Bei Energie = 120:
-//     Leere Nachbarfelder suchen.
-//     Zufälliges leeres Nachbarfeld auswählen, neuer Fleischfresser entsteht.
-//     Energie des alten Fleischfressers -100.
+// Startenergie: Jeder Fleischfresser beginnt mit einer Energie von 100.
+// Nahrungssuche: In jedem Zyklus sucht der Fleischfresser in seiner unmittelbaren Umgebung nach Nahrung.
+//     Grasfresser gefunden:
+//         Der Fleischfresser bewegt sich auf das Feld, auf dem sich der Grasfresser befindet.
+//         Dadurch wird der Grasfresser "gefressen" und der Fleischfresser erhält 10 Energiepunkte dazu.
+//     Kein Grasfresser gefunden:
+//         Der Fleischfresser kann kein leeres Feld suchen, sondern verliert 1 Energiepunkt.
+// Fortpflanzung: Erreicht der Fleischfresser eine Energie von 120 oder mehr, pflanzt er sich fort.
+//     Er sucht nach einem leeren Feld in seiner Umgebung.
+//     Wenn ein leeres Feld gefunden wird, wird dort ein neuer Fleischfresser erstellt.
+//     Der ursprüngliche Fleischfresser verliert 100 Energiepunkte durch die Fortpflanzung.
+// Tod: Sinkt die Energie des Fleischfressers auf 0 oder weniger, stirbt er und das Feld, auf dem er sich befand, wird leer.
 class MeatEater {
     // Dein Code hier
 }
