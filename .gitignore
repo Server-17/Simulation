@@ -1,2 +1,4 @@
 node_modules
 package-lock.json
+project_template.js
+project_pre_template.js
