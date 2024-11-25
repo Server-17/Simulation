@@ -2,16 +2,16 @@ let blockSize = 50;
 let matrixSize = 5;
 
 class Empty { constructor() { this.color = "white" } }
-class Red { constructor() { this.color = "red" } }
-class Green { constructor() { this.color = "green" } }
-class Yellow { constructor() { this.color = "yellow" } }
+class Grass { constructor() { this.color = "green" } }
+class GrassEater { constructor() { this.color = "yellow" } }
+class MeatEater { constructor() { this.color = "red" } }
 
 let matrix = [
-    [new Empty(), new Empty(), new Green(), new Empty(), new Empty()],
-    [new Green(), new Green(), new Empty(), new Red(), new Empty()],
-    [new Empty(), new Red(), new Yellow(), new Green(), new Empty()],
-    [new Empty(), new Red(), new Empty(), new Empty(), new Green()],
-    [new Green(), new Empty(), new Empty(), new Empty(), new Empty()],
+    [new Empty(), new Empty(), new Grass(), new Empty(), new Empty()],
+    [new Grass(), new Grass(), new Empty(), new MeatEater(), new GrassEater()],
+    [new Empty(), new MeatEater(), new GrassEater(), new Grass(), new Empty()],
+    [new Empty(), new MeatEater(), new Empty(), new Empty(), new Grass()],
+    [new Grass(), new Empty(), new Empty(), new Empty(), new Empty()],
 ]
 
 function setup() {
@@ -25,6 +25,8 @@ function setup() {
     let distance = 2;
 
     visualizeSearchRange(row, col, distance);
+    
+    // Hier für Aufgabe 2 verändern. Z.B. findNeighbourPositions(row, col, distance, GrassEater)
     let neighbours = findNeighbourPositions(row, col, distance);
     visualizeNeighbourPositions(neighbours);
 }
