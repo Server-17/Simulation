@@ -97,6 +97,16 @@ function fillRandomMatrix() {
 // Aktualisiert die Position einer Kreatur in der Matrix
 // Erstellt ein neues leeres Objekt an der alten Position
 function updateCreaturePosition(creature, newPos) {
+    if (matrix[creature.row][creature.col] !== creature) {
+        let creatureType = creature.constructor.name;
+        let message = `Ein ${creatureType}-Kreatur soll bewegt werden, aber befindet sich nicht mehr in der Matrix.\
+Das liegt wahrscheinlich daran, dass sie zuvor "gestorben" ist und die Position bereits\
+von einer anderen Kreatur eingenommen wurde. Nachdem eine Kreatur "stirbt", sollte sie\
+sich nicht mehr bewegen. Wahrscheinlich hast du die Logik fürs sterben vor der logik fürs\
+fressen/bewegen in der step() Methode. Versuche, die Logik fürs sterben ganz ans Ende der\
+step() Methode zu verschieben oder verwende ein return, um die Methode nach dem Sterben zu beenden.`;
+        throw new Error(message);
+    }
     let newRow = newPos[0];
     let newCol = newPos[1];
     matrix[newRow][newCol] = creature;
