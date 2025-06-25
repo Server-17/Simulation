@@ -1,4 +1,13 @@
-class Empty { }
+class Empty {
+    constructor() {
+        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
+        this.color = backgroundColor;            // Jede Kreatur braucht eine Farbe
+    }
+
+    step() {
+        // Leere Felder machen nichts
+    }
+}
 
 // Startenergie: Jedes Gras beginnt mit einer zufälligen Energiemenge zwischen 0 und 2.
 // Energiegewinn: In jedem Zyklus (Frame) erhöht sich die Energie des Grases um 1.
@@ -60,18 +69,17 @@ class MeatEater {
     // Dein Code hier
 }
 
-// Liste von Listen. Enthält alle Kreaturen.
-let matrix = [];
-// Größe der Matrix, Anzahl der Zellen in Breite und Höhe
-let matrixSize = 50;
-// Anzeigengröße in Pixeln für jede Zelle
-let blockSize = 15;
+
+let backgroundColor = "#cccccc"; // Hintergrundfarbe der Zeichenfläche
+let matrix = []; // Liste von Listen. Enthält alle Kreaturen.
+let matrixSize = 50; // Größe der Matrix, Anzahl der Zellen in Breite und Höhe
+let blockSize = 15; // Anzeigengröße in Pixeln für jede Zelle
 
 // Wahrscheinlichkeit, mit der jede Kreatur erstellt wird
 let creatureProbabilities = [
-    [Grass, 0.25],       // Gras: 25% Wahrscheinlichkeit
-    [GrassEater, 0.05],  // Grasfresser: 5% Wahrscheinlichkeit
-    [MeatEater, 0.02],   // Fleischfresser: 2% Wahrscheinlichkeit
+    [Grass, 0.25],       // Gras: 25%
+    [GrassEater, 0.05],  // Grasfresser: 5%
+    [MeatEater, 0.02],   // Fleischfresser: 2%
 ];
 
 // Wählt basierend auf den Wahrscheinlichkeiten zufällig eine Kreatur aus
@@ -107,20 +115,18 @@ fressen/bewegen in der step() Methode. Versuche, die Logik fürs sterben ganz an
 step() Methode zu verschieben oder verwende ein return, um die Methode nach dem Sterben zu beenden.`;
         throw new Error(message);
     }
-    let newRow = newPos[0];
-    let newCol = newPos[1];
-    matrix[newRow][newCol] = creature;
+    matrix[newPos.row][newPos.col] = creature;
     matrix[creature.row][creature.col] = new Empty();
-    creature.row = newRow;
-    creature.col = newCol;
+    creature.row = newPos.row;
+    creature.col = newPos.col;
 }
 
 // Für eine gegebene Position werden alle Nachbarpositionen gesucht,
 // die einen bestimmten Kreaturentyp enthalten und innerhalb einer bestimmten Distanz liegen
-// Gibt eine Liste von [row, col]-Positionen zurück
+// Gibt eine Liste von Objekten zurück, die jeweils eine row und col-Eigenschaft haben
 // Beispiel: findNeighbourPositions(10, 10, 1, Empty) gibt alle leeren Zellen
 // um die Position 10, 10 im Abstand von 1 zurück.
-// Wenn alle Zellen leer sind, wird [[9, 9], [9, 10], [9, 11], [10, 9], [10, 11], [11, 9], [11, 10], [11, 11]] zurückgegeben
+// Wenn alle Zellen leer sind, wird [{row: 9, col: 9}, {row: 9, col: 10}, {row: 9, col: 11}, {row: 10, col: 9}, {row: 10, col: 11}, {row: 11, col: 9}, {row: 11, col: 10}, {row: 11, col: 11}] zurückgegeben
 function findNeighbourPositions(row, col, distance, creatureType) {
     // Dein Code hier
 }
@@ -137,13 +143,11 @@ function setup() {
 // Spielschleife. Wird in jedem Frame aufgerufen
 // Zeichnet die Matrix und aktualisiert die Kreaturen
 function draw() {
-    background(200); // Hintergrundfarbe festlegen
+    background(backgroundColor); // Hintergrundfarbe festlegen
     for (let row = 0; row < matrixSize; row++) {
         for (let col = 0; col < matrixSize; col++) {
             let obj = matrix[row][col]; // Objekt an der aktuellen Position
-
-            // Leere Zellen überspringen
-            if (obj instanceof Empty) continue;
+            checkErrors(obj);
 
             // Zeile und Spalte der Kreatur setzen
             obj.row = row;
@@ -159,7 +163,25 @@ function draw() {
 
             // Kreatur zeichnen
             fill(obj.color); // Farbe der Kreatur setzen
-            rect(blockSize * obj.col, blockSize * obj.row, blockSize, blockSize); // Rechteck zeichnen
+            rect(blockSize * col, blockSize * row, blockSize, blockSize); // Rechteck zeichnen
         }
+    }
+}
+
+function checkErrors(obj) {
+    if (obj === undefined || obj === null) {
+        throw new Error("Ein Element in der Matrix ist undefined oder null. Das sollte nicht passieren. Wenn an einer Stelle in der Matrix keine Kreatur ist, sollte dort ein Empty-Objekt sein.");
+    }
+    if (obj.row < 0 || obj.row >= matrixSize || obj.col < 0 || obj.col >= matrixSize) {
+        throw new Error("Eine Kreatur vom Typ " + obj.constructor.name + " ist außerhalb der Matrix");
+    }
+    if (obj.stepCount === undefined || obj.stepCount === null) {
+        throw new Error("Die Klasse " + obj.constructor.name + " hat keine stepCount-Eigenschaft. Jede Kreatur braucht eine solche Eigenschaft. Vielleicht hast du die Zeile 'this.stepCount = frameCount + 1;' im Konstruktor vergessen?");
+    }
+    if (obj.stepCount < frameCount) {
+        throw new Error("Ein Objekt vom Typ " + obj.constructor.name + " hat einen stepCount-Wert, der kleiner ist als frameCount. Das sollte nicht passieren. Überprüfe, ob die Zeile 'this.stepCount = frameCount + 1;' im Konstruktor korrekt ist.");
+    }
+    if (obj.color === undefined || obj.color === null) {
+        throw new Error("Die Klasse " + obj.constructor.name + " hat keine color-Eigenschaft. Jede Kreatur braucht eine solche Eigenschaft. Vielleicht hast du die Zeile 'this.color = ...;' im Konstruktor vergessen?");
     }
 }
