@@ -1,0 +1,13 @@
+p{
+    color:fuchsia;
+    background-color:blue;
+    padding: 20px;
+}
+a{ 
+    background-color: blue;
+    color:brown;
+    padding: 3px;
+    margin-left: 320px;
+    border-radius: 20px;
+    font-size: 50px;
+}

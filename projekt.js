@@ -1,24 +1,6 @@
-class Empty {
-    constructor() {
-        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
-        this.color = backgroundColor;            // Jede Kreatur braucht eine Farbe
-    }
 
-    step() {
-        // Leere Felder machen nichts
-    }
-}
 
-class blackEmpty {
-    constructor() {
-        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
-        this.color = "black";            // Jede Kreatur braucht eine Farbe
-    }
 
-    step() {
-        // Leere Felder machen nichts
-    }
-}
 
 
 // Startenergie: Jedes Gras beginnt mit einer zufälligen Energiemenge zwischen 0 und 2.
@@ -28,43 +10,7 @@ class blackEmpty {
 //     Wenn leere Felder vorhanden sind, wird zufällig eines ausgewählt.
 //     Auf diesem leeren Feld wird ein neues Grasobjekt erstellt.
 //     Die Energie des ursprünglichen Grases wird nach der Fortpflanzung auf 0 zurückgesetzt.
-class Grass {
 
-    // Jede Klasse braucht einen Konstruktor
-    // Hier werden die Anfangswerte der Kreatur gesetzt
-    constructor() {
-        this.stepCount = frameCount + 1; // Jede Kreatur braucht diese Zeile
-        this.color = "green";            // Jede Kreatur braucht eine Farbe
-        this.Energie = Math.floor(random(0,3))
-        // Hier kannst du weitere Eigenschaften hinzufügen
-    }
-
-    // Die step() Methode wird in jedem Frame aufgerufen
-    // Jede Kreatur braucht eine solche step() Methode!
-    step() {
-        this.Energiewachstum()
-        if(this.Energie>= 7){
-            this.multiply()
-            this.Energie=0
-
-        }
-        // Der Code hier wird in jedem Frame ausgeführt
-        // Um den Code zu organisieren, kannst du andere Methoden erstellen und von hier aus aufrufen
-        // z.B. könntest du eine multiply() Methode erstellen, die aufgerufen wird, wenn die Energie ≥ 7 ist
-    }
-    Energiewachstum(){
-        this.Energie +=1
-    }
-    multiply(){
-        let LeereFelder = findNeighbourPositions(this.row,this.col,1,Empty)
-        LeereFelder =  LeereFelder.concat(findNeighbourPositions(this.row,this.col,1,blackEmpty))
-        // auch meterioieten überwachsen 
-        if(LeereFelder.length>0){
-            let randomFeld = random(LeereFelder)
-            matrix[randomFeld.row][randomFeld.col]=new Grass()
-        }
-    }
-}
 
 // Startenergie: Jeder Grasfresser beginnt mit einer Energie von 5.
 // Nahrungssuche: In jedem Zyklus sucht der Grasfresser in seiner unmittelbaren Umgebung nach Nahrung.
@@ -80,69 +26,7 @@ class Grass {
 //     Wenn ein leeres Feld gefunden wird, wird dort ein neuer Grasfresser erstellt.
 //     Der ursprüngliche Grasfresser verliert 5 Energiepunkte durch die Fortpflanzung.
 // Tod: Sinkt die Energie des Grasfressers auf 0 oder weniger, stirbt er und das Feld, auf dem er sich befand, wird leer.
-class GrassEater {
-    constructor() {
-        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
-        this.color = "yellow"; 
-        this.Energie=5           // Jede Kreatur braucht eine Farbe
-    }
 
-    step() {
-        //console.log(this.Energie)
-        if(this.Energie>0 && this.Energie<10){
-            this.Nahrungssuche()
-        }
-        else if(this.Energie>=10){
-            this.Vermehren()
-
-        }
-        else{
-            this.Sterbenüberprüfen()
-        }
-        
-        
-    }
-    Nahrungssuche(){
-        let NachbarGrassfelder = findNeighbourPositions(this.row,this.col,1,Grass)
-        if(NachbarGrassfelder.length>0){
-            let zufälligesnachbargrassfeld = random(NachbarGrassfelder)
-            // matrix[zufälligesnachbargrassfeld.row][zufälligesnachbargrassfeld.col]=new GrassEater()
-            // matrix[this.row][this.col]=new Empty()
-            updateCreaturePosition(this, zufälligesnachbargrassfeld)
-            this.Energie+=1
-        }
-        else if(NachbarGrassfelder.length==0){
-            this.keineNahrunggefunden()
-            this.Energie-=1
-        }
-        
-    }
-    keineNahrunggefunden(){
-        let leeresNachbarfeld = findNeighbourPositions(this.row,this.col,1,Empty)
-        if(leeresNachbarfeld.length>0){
-            let zufäligesleeresNachbarfeld= random(leeresNachbarfeld)
-            // matrix[this.row][this.col]=new Empty()
-            // matrix[zufäligesleeresNachbarfeld.row][zufäligesleeresNachbarfeld.col]= this
-            updateCreaturePosition(this, zufäligesleeresNachbarfeld)
-            
-        }
-    }
-    Sterbenüberprüfen(){
-        if(this.Energie<=0){
-            matrix[this.row][this.col]=new Empty()
-        }
-    }
-
-    Vermehren(){
-        //console.log(this.Energie)
-        let Nachbarfeld2 = findNeighbourPositions(this.row,this.col,1,Object)
-        let zufälligesnachbarfeld2 = random(Nachbarfeld2)
-        matrix[zufälligesnachbarfeld2.row][zufälligesnachbarfeld2.col]=new GrassEater()
-        this.Energie-=5
-
-
-    }
-}
 
 // Startenergie: Jeder Fleischfresser beginnt mit einer Energie von 100.
 // Nahrungssuche: In jedem Zyklus sucht der Fleischfresser in seiner unmittelbaren Umgebung nach Nahrung.
@@ -156,205 +40,9 @@ class GrassEater {
 //     Wenn ein leeres Feld gefunden wird, wird dort ein neuer Fleischfresser erstellt.
 //     Der ursprüngliche Fleischfresser verliert 100 Energiepunkte durch die Fortpflanzung.
 // Tod: Sinkt die Energie des Fleischfressers auf 0 oder weniger, stirbt er und das Feld, auf dem er sich befand, wird leer.
-class MeatEater {
-    constructor() {
-        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
-        this.color = "red";            // Jede Kreatur braucht eine Farbe
-        this.Energie=100
-    }
-
-    step() {
-        if(this.Energie>0 && this.Energie<120){
-            this.Nahrungssuchegrasseater()
-        }
-        else if(this.Energie>=120){
-            this.Vermehren()
-
-        }
-        else{
-            this.Sterbenüberprüfen()
-        }
-        
-    }
-    Nahrungssuchegrasseater(){
-        let NachbarGrasseaterfelder = findNeighbourPositions(this.row,this.col,1,GrassEater)
-        if(NachbarGrasseaterfelder.length>0){
-            let zufälligesnachbargrasseaterfeld = random(NachbarGrasseaterfelder)
-            // matrix[zufälligesnachbargrassfeld.row][zufälligesnachbargrassfeld.col]=new GrassEater()
-            // matrix[this.row][this.col]=new Empty()
-            updateCreaturePosition(this, zufälligesnachbargrasseaterfeld)
-            this.Energie+=10
-        }
-        else if(NachbarGrasseaterfelder.length==0){
-            this.Energie-=1
-        }
-}
-    Vermehren(){
-        //console.log(this.Energie)
-        let Nachbarfeld3 = findNeighbourPositions(this.row,this.col,1,Empty)
-        if(Nachbarfeld3.length>0){
-            let zufälligesnachbarfeld3 = random(Nachbarfeld3)
-            matrix[zufälligesnachbarfeld3.row][zufälligesnachbarfeld3.col]=new MeatEater()
-            this.Energie-=100
-        }
-        else{
-
-        }
 
 
-}
-   Sterbenüberprüfen(){
-           if(this.Energie<=0){
-            matrix[this.row][this.col]=new Empty()
-         }
-      }
-}
 
-
-class Flussbauer{
-    constructor(){
-        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
-        this.color = "blue";            // Jede Kreatur braucht eine Farbe
-        this.Energie=1
-        this.Größe=5
-        this.Anzahl=1
-        this.Zähler=0
-        this.Richtung=0
-        this.Richtung2=0
-
-    }
-    step(){
-        
-        this.Zähler+=1
-        if(this.Energie<5 && this.Energie>0){
-            this.Schiffbau()
-            this.Energie+=0,1
-
-        }
-        else if(this.Energie>=5){
-            this.Schiffbau2()
-
-
-        }
-        else{
-            this.Sterben()
-        }
-        
-    }
-    Schiffbau(){
-        
-        if(this.Richtung==0){
-                updateCreaturePosition(this, {row:this.row, col:this.col+1})
-                if(this.col==matrixSize-1){
-                 this.Richtung=1
-             }
-        }
-        
-        else if(this.Richtung==1){
-             updateCreaturePosition(this, {row:this.row, col:this.col-1})
-             if(this.col==0){
-                this.Richtung=0
-             }
-        }
-        
-  
-    }
-
-    
-    Schiffbau2(){
-        if(this.Richtung<matrixSize-1){
-            this.Richtung+=1
-            updateCreaturePosition(this, {row:this.row, col:this.col+1})
-            if(this.Richtung2<matrixSize-1){
-                 matrix[this.row+1][this.col]= new Empty()
-                this.Richtung2+=1
-            }
-           
-            else if(this.Richtung2>=matrixSize-1){
-            matrix[this.row-1][this.col]= new Empty()
-            this.Richtung2+=1
-
-            }
-
-        }
-        else{
-            updateCreaturePosition(this, {row:this.row, col:this.col-1})
-            if(this.Richtung2<matrixSize-1){
-                matrix[this.row+1][this.col]= new Empty()
-                this.Richtung2+=1
-
-            }
-                else if(this.Richtung2>=matrixSize-1){
-                matrix[this.row-1][this.col]= new Empty()
-                this.Richtung2+=1
-
-            }
-    
-
-    }
-}
-    Sterben(){
-        matrix[this.row][this.col]=new Empty()
-    }
-}
-class Meteroiteneinschläge{
-    constructor(){
-        this.stepCount = frameCount + 1;         // Jede Kreatur braucht diese Zeile
-        this.color = "#cccccc";            // Jede Kreatur braucht eine Farbe
-        this.Größe=2
-        this.Energie=5
-        this.Lebensleistung=50
-    }
-    step(){
-        this.color="#cccccc"
-
-        //console.log(this.EnergieEnergie)
-        if(this.Energie>0 &&this.Energie%5==0 && this.Energie< 50){
-            //console.log("funktioniert")
-            this.Meteroiteneinschlag()
-        }
-        else if(this.Energie>=50 && this.Energie%10==0){
-            this.Größe+=0.1
-            this.Meteroiteneinschlag()
-           // updateCreaturePosition(this,random(matrix))
-
-        }
-        else if(this.Lebensleistung<0){
-            this.Sterben()
-        }
-        else{
-            this.Energie+=2.5
-            this.Lebensleistung-=0.1
-            //console.log(this.Lebensleistung)
-
-
-        }
-
-
-    }
-    Meteroiteneinschlag(){
-        this.color= "black"
-        let Felder = findNeighbourPositions(this.row,this.col,floor(this.Größe),Grass)
-        //console.log(Felder)
-        if(Felder.length != 0){
-           // console.log("start")
-            for(var i=0;i<Felder.length;i++){
-                 matrix[Felder[i].row][Felder[i].col]= new blackEmpty()
-            }
-            this.Energie+=2.5
-            let pos = {row: floor(random(matrixSize)),col: floor(random(matrixSize))}
-            updateCreaturePosition(this,pos)
-        }
-        else{
-            this.Energie+=2.5
-        }
-
-    }
-    Sterben(){
-        matrix[this.row][this.col]=new Empty()
-    }
-
-}
 let backgroundColor = "#cccccc"; // Hintergrundfarbe der Zeichenfläche
 let matrix = []; // Liste von Listen. Enthält alle Kreaturen.
 let matrixSize = 80; // Größe der Matrix, Anzahl der Zellen in Breite und Höhe
@@ -366,7 +54,8 @@ let creatureProbabilities = [
     [GrassEater, 0.05],  // Grasfresser: 5%
     [MeatEater, 0.02],   // Fleischfresser: 2%
     [Flussbauer, 0.001],  // Schiffbauer 1%;
-    [Meteroiteneinschläge, 0.001] // 0,001 %;
+    [Meteroiteneinschläge, 0.001], // 0,001 %;
+    [Mensch, 0.0025]
 ]
 
 // Wählt basierend auf den Wahrscheinlichkeiten zufällig eine Kreatur aus
