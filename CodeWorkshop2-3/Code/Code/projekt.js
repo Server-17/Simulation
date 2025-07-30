@@ -1,7 +1,4 @@
-
-
-
-
+var Jahreszeit=1    // 1 Sommer; 2 Winter;
 
 // Startenergie: Jedes Gras beginnt mit einer zufälligen Energiemenge zwischen 0 und 2.
 // Energiegewinn: In jedem Zyklus (Frame) erhöht sich die Energie des Grases um 1.
@@ -130,6 +127,17 @@ function setup() {
     fillRandomMatrix(); // Matrix zufällig füllen
     noStroke(); // Keine Umrandungen für Rechtecke
     frameRate(30); // Bildrate auf 30 Frame pro Sekunde setzen
+
+
+    var Winterbutton= document.getElementById("Winterbutton")
+Winterbutton.addEventListener("click",Winter)
+var Text = document.getElementById("Text")
+
+function Winter(){
+    Text.innerHTML= "Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen. <strong>Nun bricht der Winter an!!! </strong>"
+    Jahreszeit=2
+}
+console.log("Die Jahreszeit ist Momentan:"+ Jahreszeit+ " 1=Sommer; 2=Winter")
 }
 
 // Spielschleife. Wird in jedem Frame aufgerufen

@@ -3,6 +3,7 @@ class Wesen{
         this.stepCount = frameCount + 1;
         this.color = Farbe
         this.Energie= Energie
+        this.Indikator = Jahreszeit
     }
     step() {
         // Leere Felder machen nichts

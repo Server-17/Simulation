@@ -5,6 +5,9 @@ class GrassEater extends Wesen{
     }
 
     step() {
+        if(this.Indikator===2){
+            
+        }
         //console.log(this.Energie)
         if(this.Energie>0 && this.Energie<10){
             this.Nahrungssuche()

@@ -11,3 +11,15 @@ a{
     border-radius: 20px;
     font-size: 50px;
 }
+#Winterbutton{
+    color: blue;
+    background-color: rgb(15, 13, 4);
+    border-radius:20px;
+    
+}
+#Sommerbutton{
+    color:yellow;
+    padding:5px;
+    border-radius: 10px;
+    background-color: black;
+}
