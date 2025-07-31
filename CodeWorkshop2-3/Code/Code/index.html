@@ -11,7 +11,7 @@
   <script src="KlasseMeateater.js"></script>
   <script src="KlasseSchiffbauer.js"></script>
   <script src="Klassexplosion.js"></script> 
-  <script src="neueKreatur.js"></script>
+  <script src="MenschenKlasse.js"></script>
   <script src="nachbarn2.js"></script>
   <script src="projekt.js"></script>
   <link rel="stylesheet" href="style.css">
@@ -21,17 +21,32 @@
 
 <body style="margin-right: 400px;">
   
-  <a id="Überschrift">Simulation</a> 
-  <p id="Text">Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen.</p>
+  <h1 id="Überschrift">Simulation</h1> 
+  <p id="Text">Das ist eine <strong>Simulation</strong> einer Wiese, die von <strong>Kreaturen</strong> die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen.<br>Aktuell ist Sommer.</p>
   <button id="Winterbutton">Winter</button>
   <button id="Sommerbutton" >Sommer</button>
-  <main>
+  <button id="Herbstbutton">Herbst</button>
+  <button id="zufAuseinesWese"><strong><em>zufällige Auslöschung eines Wesens</em></strong></button>
+  <button id="Neustart">Neu Laden</button>
+  <main id="main">
   </main>
+  <br>
+  <br>
+  <button id="Grassanzahl">Grass: 0</button>
+  <button id="Emptyanzahl">Empty: 0</button>
+  <button id="BlackEmptyanzahl">black Empty: 0</button>
+  <button id="GrassEateranzahl">Grass Eater: 0</button>
+  <br>
+  <br>
+  <button id="MeatEateranzahl">Meat Eater: 0</button>
+  <button id="Flussbaueranzahl">Flussbauer: 0</button>
+  <button id="Menschenanzahl">Mensch: 0</button>
+  <button id="Meteroitenanzahl">Meteroiten: 0</button>
   <button id="console-toggle"
-    style="position: fixed; bottom: 10px; right: 410px; z-index: 1000; padding: 5px 10px; background: #333; color: #eee; border: 1px solid #666; cursor: pointer; border-radius: 5px;">Hide
+    style="position: fixed; bottom: 10px; right: 410px; z-index: 1000; padding: 5px 10px; border: 1px solid #666; cursor: pointer; border-radius: 5px;">Hide
     Console</button>
   <div id="console-view"
-    style="box-sizing: border-box; position: fixed; top: 0; right: 0; width: 400px; height: 100%; background-color: #222; color: #eee; font-family: monospace; overflow-y: hidden; border-left: 1px solid #666; padding: 10px;">
+    style="box-sizing: border-box; position: fixed; top: 0; right: 0; width: 400px; height: 100%; font-family: monospace; overflow-y: hidden; border-left: 1px solid #666; padding: 10px;">
     <h3
       style="margin-top: 0; border-bottom: 1px solid #666; padding-bottom: 10px; margin-bottom: 10px; font-weight: normal; color: #aaa;">
       JS CONSOLE</h3>

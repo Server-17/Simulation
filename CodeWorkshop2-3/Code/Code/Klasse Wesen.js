@@ -1,14 +1,14 @@
-class Wesen{
-    constructor(Farbe,Energie){
+class Wesen {
+    constructor(Farbe, Energie) {
         this.stepCount = frameCount + 1;
         this.color = Farbe
-        this.Energie= Energie
+        this.Energie = Energie
         this.Indikator = Jahreszeit
     }
     step() {
         // Leere Felder machen nichts
     }
-    Sterben(){
-        matrix[this.row][this.col]=new Empty()
+    Sterben() {
+        matrix[this.row][this.col] = new Empty()
     }
 }

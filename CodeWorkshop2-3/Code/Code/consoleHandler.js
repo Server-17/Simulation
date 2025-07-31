@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const consoleView = document.getElementById('console-view');
         const consoleLogContainer = document.getElementById('console-log-container');
         const toggleBtn = document.getElementById('console-toggle');
+        const Überschrift = document.getElementById("Überschrift")
         let isConsoleVisible = true;
 
         // Handle case where elements might not be found
@@ -18,11 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.marginRight = '400px';
                 toggleBtn.style.right = '410px';
                 toggleBtn.textContent = 'Hide Console';
+                Überschrift.style.marginRight='225px';
             } else {
                 consoleView.style.display = 'none';
                 document.body.style.marginRight = '0';
                 toggleBtn.style.right = '10px';
                 toggleBtn.textContent = 'Show Console';
+                Überschrift.style.marginRight='625px';
             }
         });
 

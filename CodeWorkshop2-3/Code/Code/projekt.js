@@ -1,5 +1,4 @@
-var Jahreszeit=1    // 1 Sommer; 2 Winter;
-
+var Jahreszeit = 1    // 1 Sommer; 2 Winter;3 Herbst
 // Startenergie: Jedes Gras beginnt mit einer zufälligen Energiemenge zwischen 0 und 2.
 // Energiegewinn: In jedem Zyklus (Frame) erhöht sich die Energie des Grases um 1.
 // Fortpflanzung: Erreicht das Gras eine Energie von 7 oder mehr, pflanzt es sich fort.
@@ -38,8 +37,6 @@ var Jahreszeit=1    // 1 Sommer; 2 Winter;
 //     Der ursprüngliche Fleischfresser verliert 100 Energiepunkte durch die Fortpflanzung.
 // Tod: Sinkt die Energie des Fleischfressers auf 0 oder weniger, stirbt er und das Feld, auf dem er sich befand, wird leer.
 
-
-
 let backgroundColor = "#cccccc"; // Hintergrundfarbe der Zeichenfläche
 let matrix = []; // Liste von Listen. Enthält alle Kreaturen.
 let matrixSize = 80; // Größe der Matrix, Anzahl der Zellen in Breite und Höhe
@@ -72,13 +69,14 @@ function getRandomCreature() {
 
 // Füllt die Matrix zufällig mit Kreaturen basierend auf den Wahrscheinlichkeiten
 function fillRandomMatrix() {
-    for(let i=0; i<matrixSize; i++){
+    matrix = []
+    for (let i = 0; i < matrixSize; i++) {
         matrix.push([])
-        for(let j=0; j<matrixSize; j++){
-        let creature = getRandomCreature()
-        matrix[i].push(creature)
+        for (let j = 0; j < matrixSize; j++) {
+            let creature = getRandomCreature()
+            matrix[i].push(creature)
         }
-        }
+    }
 }
 
 // Aktualisiert die Position einer Kreatur in der Matrix
@@ -111,7 +109,7 @@ function findNeighbourPositions(row, col, distance, Feldtyp) {
     for (let i = row - distance; i <= row + distance; i++) {
         for (let j = col - distance; j <= col + distance; j++) {
             let isInMatrix = i >= 0 && j >= 0 && i < matrixSize && j < matrixSize
-            if ((i != row || j != col) && isInMatrix && matrix [i][j] instanceof Feldtyp) {
+            if ((i != row || j != col) && isInMatrix && matrix[i][j] instanceof Feldtyp) {
                 let pos = { row: i, col: j }
                 l.push(pos)
             }
@@ -119,6 +117,25 @@ function findNeighbourPositions(row, col, distance, Feldtyp) {
     }
     return l
 }
+
+// Variablen zur Statistik
+var Anzahl;
+var Anzahl2;
+var Anzahl3;
+var Anzahl4;
+var Anzahl5;
+var Anzahl6;
+var GrassAnzahl=0
+var GrassEaterAnzahl=0
+var MeatEaterAnzahl=0
+var EmptyAnzahl=0
+var MenschenAnzahl=0
+var MeteoritenAnzahl =0
+var Flussbaueranzahl=0
+var blackEmptyanzahl=0
+var Main = document.getElementById("main")
+
+
 
 // Initialisiert die Zeichenfläche und füllt die Matrix mit Kreaturen
 // Wird einmal beim Start aufgerufen
@@ -128,21 +145,154 @@ function setup() {
     noStroke(); // Keine Umrandungen für Rechtecke
     frameRate(30); // Bildrate auf 30 Frame pro Sekunde setzen
 
+    var zufälligeAuslöschungeinesWesens = document.getElementById("zufAuseinesWese")
+    zufälligeAuslöschungeinesWesens.addEventListener("click", Auslöschung)
 
-    var Winterbutton= document.getElementById("Winterbutton")
-Winterbutton.addEventListener("click",Winter)
-var Text = document.getElementById("Text")
+    var Neustart = document.getElementById("Neustart")
+    Neustart.addEventListener("click", Start)
 
-function Winter(){
-    Text.innerHTML= "Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen. <strong>Nun bricht der Winter an!!! </strong>"
-    Jahreszeit=2
+    var Winterbutton = document.getElementById("Winterbutton")
+    Winterbutton.addEventListener("click", () => {
+        Buttonzurücksetzen()
+        Winter()
+    })
+    var Sommerbutton = document.getElementById("Sommerbutton")
+    Sommerbutton.addEventListener("click", () => {
+        Buttonzurücksetzen()
+        Sommer()
+    })
+    var Herbstbutton = document.getElementById("Herbstbutton")
+    Herbstbutton.addEventListener("click", function () {
+        Buttonzurücksetzen()
+        Herbst()
+    })
+
+    var Text = document.getElementById("Text")
+
+    function Winter() {
+        Text.innerHTML = "Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen.<br> <strong>Nun bricht der Winter an!!! </strong>"
+        Jahreszeit = 2
+        console.log("Die Jahreszeit ist Momentan:" + Jahreszeit + " 1=Sommer; 2=Winter; 3=Herbst")
+        Winterbutton.style.borderColor = "red"
+    }
+    function Sommer() {
+        Text.innerHTML = "Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen. <br><em><strong>Noch ist Sommer!!! </strong><em>"
+        Jahreszeit = 1
+        console.log("Die Jahreszeit ist Momentan:" + Jahreszeit + " 1=Sommer; 2=Winter; 3=Herbst")
+        Sommerbutton.style.borderColor = "red"
+    }
+    function Herbst() {
+        Text.innerHTML = "Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen. <br><em><strong>Im Herbst ist das Wetter wechselhaft!!! </strong><em>"
+        Jahreszeit = 3
+        console.log("Die Jahreszeit ist Momentan:" + Jahreszeit + " 1=Sommer; 2=Winter; 3=Herbst")
+        Herbstbutton.style.borderColor = "red"
+    }
+    function Buttonzurücksetzen() {
+        Herbstbutton.style.borderColor = "black"
+        Sommerbutton.style.borderColor = "black"
+        Winterbutton.style.borderColor = "black"
+    }
+
+
+    function Auslöschung() {
+        //console.log("ok")
+        var Wesen2 = []
+        for (var i = 0; i < matrix.length; i++) {
+            for (j = 0; j < matrixSize; j++) {
+                let classname = matrix[i][j].constructor.name
+                if ((!Wesen2.includes(classname)) && classname != "Empty"){
+                    Wesen2.push(classname)
+                }
+            }
+        }
+        
+        var zufall = random(Wesen2)
+        
+        for (var i = 0; i < matrix.length; i++) {
+            for (j = 0; j < matrixSize; j++) {
+                if (matrix[i][j].constructor.name == zufall) {
+                    matrix[i][j] = new Empty()
+                }
+            }
+        }
+    }
+
+    function bestimmteEntfernung(bestimmt){
+        for (var i = 0; i < matrix.length; i++) {
+            for (j = 0; j < matrixSize; j++) {
+                if (matrix[i][j] instanceof bestimmt) {
+                    matrix[i][j] = new Empty()
+                }
+            }
+        }
+    }
+
+
+    function Start() {
+        // creatureProbabilities = [
+        //     [Grass, 0.25],       // Gras: 25%
+        //     [GrassEater, 0.05],  // Grasfresser: 5%
+        //     [MeatEater, 0.02],   // Fleischfresser: 2%
+        //     [Flussbauer, 0.001],  // Schiffbauer 1%;
+        //     [Meteroiteneinschläge, 0.001], // 0,001 %;
+        //     [Mensch, 0.0025]
+        // ]
+        Text.innerHTML="Das ist eine Simulation einer Wiese, die von Kraturen die Grass verschlingen zerlegt wird. Dabei gibt es <br> auch andere Kreaturen, die die Grassfressenden Kreaturen essen. Außerdem schlagen dauernd Meteroit-<br>en in die Landschaft ein, währens Flussbauer dauernd die Landschaft durchqueren und Flüsse bauen wollen."
+        Buttonzurücksetzen()
+        Jahreszeit = 1
+        fillRandomMatrix()
+
+        
+    }
+    Anzahl= document.getElementById("Grassanzahl")
+    Anzahl.addEventListener("click",()=>{
+        bestimmteEntfernung(Grass)
+        //Anzahl.innerHTML="Grass: wurden entfernt"
+    })
+
+    Anzahl2= document.getElementById("GrassEateranzahl")
+    Anzahl2.addEventListener("click",()=>{
+        bestimmteEntfernung(GrassEater)
+        //Anzahl2.innerHTML="GrassEater: wurden entfernt"
+    })
+    Anzahl3= document.getElementById("MeatEateranzahl")
+    Anzahl3.addEventListener("click",()=>{
+        bestimmteEntfernung(MeatEater)
+        //Anzahl3.innerHTML="MeatEater: wurden entfernt"
+    })
+
+    Anzahl4= document.getElementById("Emptyanzahl")
+    Anzahl5= document.getElementById("Menschenanzahl")
+    Anzahl5.addEventListener("click",()=>{
+        bestimmteEntfernung(Mensch)
+       //Anzahl5.innerHTML="Menschen: wurden entfernt"
+    })
+    Anzahl6= document.getElementById("Meteroitenanzahl")
+    Anzahl6.addEventListener("click",()=>{
+        bestimmteEntfernung(Meteroiteneinschläge)
+        //Anzahl6.innerHTML="Meteoriten: wurden entfernt"
+    })
+    Anzahl7= document.getElementById("Flussbaueranzahl")
+    Anzahl7.addEventListener("click",()=>{
+        bestimmteEntfernung(Flussbauer)
+        //Anzahl7.innerHTML="Flussbauer: wurden entfernt"
+    })
+    Anzahl8= document.getElementById("BlackEmptyanzahl")
 }
-console.log("Die Jahreszeit ist Momentan:"+ Jahreszeit+ " 1=Sommer; 2=Winter")
-}
+
+
 
 // Spielschleife. Wird in jedem Frame aufgerufen
 // Zeichnet die Matrix und aktualisiert die Kreaturen
 function draw() {
+    GrassAnzahl =0
+    EmptyAnzahl =0
+    GrassEaterAnzahl =0
+    MenschenAnzahl=0
+    MeatEaterAnzahl=0
+    MeteoritenAnzahl=0
+    Flussbaueranzahl=0
+    blackEmptyanzahl=0
     background(backgroundColor); // Hintergrundfarbe festlegen
     for (let row = 0; row < matrixSize; row++) {
         for (let col = 0; col < matrixSize; col++) {
@@ -152,6 +302,32 @@ function draw() {
             // Zeile und Spalte der Kreatur setzen
             obj.row = row;
             obj.col = col;
+            if(obj instanceof Grass ){
+                GrassAnzahl++
+            }
+            if(obj instanceof GrassEater){
+                GrassEaterAnzahl++
+            } 
+            if(obj instanceof Empty){
+                EmptyAnzahl++
+            }
+            if(obj instanceof Mensch ){
+                MenschenAnzahl++
+            }
+            if(obj instanceof MeatEater){
+                MeatEaterAnzahl++
+            }
+            if(obj instanceof Meteroiteneinschläge ){
+                MeteoritenAnzahl++
+            }
+            if(obj instanceof Flussbauer ){
+                Flussbaueranzahl++
+            }
+            if(obj instanceof blackEmpty){
+                blackEmptyanzahl++
+            }
+
+
 
             // Verhindert, dass neu erstellte Kreaturen im gleichen Schritt aktualisiert werden
             // und dass Kreaturen, die sich bewegen, mehrfach in einem Frame aktualisiert werden
@@ -166,6 +342,25 @@ function draw() {
             rect(blockSize * col, blockSize * row, blockSize, blockSize); // Rechteck zeichnen
         }
     }
+    
+    
+    var GrassAnzahl2= "Grass: " + GrassAnzahl
+    Anzahl.innerHTML=GrassAnzahl2
+    var GrassEaterAnzahl2= "GrassEater: " + GrassEaterAnzahl
+    Anzahl2.innerHTML=GrassEaterAnzahl2
+    var MeatEaterAnzahl2= "MeatEater: " + MeatEaterAnzahl
+    Anzahl3.innerHTML=MeatEaterAnzahl2
+    var EmptyAnzahl2= "Empty: " + EmptyAnzahl
+    Anzahl4.innerHTML=EmptyAnzahl2
+    var MenschenAnzahl2= "Menschen: " + MenschenAnzahl
+    Anzahl5.innerHTML=MenschenAnzahl2
+    var MeteoritenAnzahl2= "Meteoriten: " + MeteoritenAnzahl
+    Anzahl6.innerHTML= MeteoritenAnzahl2
+    var Flussbaueranzahl2= "Flussbauer: " + Flussbaueranzahl
+    Anzahl7.innerHTML= Flussbaueranzahl2
+    var blackEmptyAnzahl2= "BlackEmpty: " + blackEmptyanzahl
+    Anzahl8.innerHTML= blackEmptyAnzahl2
+   
 }
 
 function checkErrors(obj) {
@@ -185,3 +380,35 @@ function checkErrors(obj) {
         throw new Error("Die Klasse " + obj.constructor.name + " hat keine color-Eigenschaft. Jede Kreatur braucht eine solche Eigenschaft. Vielleicht hast du die Zeile 'this.color = ...;' im Konstruktor vergessen?");
     }
 }
+
+function moveTo(row, col, target, maxDistance, validStepsFunc){
+    let allTargets = findNeighbourPositions(row, col, maxDistance, target)
+    let sorted = allTargets.sort(function(a, b){
+    let y1 = row-a.row
+    let x1 = col-a.col
+    let d1 = Math.sqrt(y1*y1 + x1*x1)
+    
+    let y2 = row-b.row
+    let x2 = col-b.col
+    let d2 = Math.sqrt(y2*y2 + x2*x2)
+    
+    return d1-d2
+    })
+    if(sorted.length > 0){
+    let closestTarget = sorted[0]
+    
+    let rowDirection = constrain(closestTarget.row - row, -1, 1)
+    let colDirection = constrain(closestTarget.col - col, -1, 1)
+    
+    
+    let possibleSteps = findNeighbourPositions(row, col, 1, Object)
+    let validSteps = possibleSteps.filter(validStepsFunc)
+    let stepsInDirection = validSteps.filter(function(e){
+    return (e.row-row == rowDirection) && (e.col - col == colDirection)
+    })
+    if(stepsInDirection.length > 0){
+    let step = random(stepsInDirection)
+    updateCreaturePosition(matrix[row][col], step)
+    }
+    }
+    }
